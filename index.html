@@ -127,94 +127,190 @@
 
         /* Mobile Responsive Styles */
         @media (max-width: 768px) {
-            .main-container {
-                grid-template-columns: 1fr;
-                grid-template-rows: 1fr auto;
-                gap: 0.5rem;
-                height: calc(100vh - var(--header-height));
+            :root {
+                --header-height: 80px;
             }
 
+            body {
+                overflow-x: hidden;
+            }
+
+            .main-container {
+                display: flex;
+                flex-direction: column;
+                height: calc(100vh - var(--header-height));
+                gap: 0;
+                padding: 0.5rem;
+                padding-bottom: 80px; /* Space for floating bill button */
+            }
+
+            /* Menu section takes full height with scroll */
+            .main-container > div:first-child {
+                flex: 1;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                padding-bottom: 1rem;
+            }
+
+            /* Floating bill summary at bottom */
             #bill-container {
                 position: fixed;
                 bottom: 0;
                 left: 0;
                 right: 0;
-                height: 50vh;
+                height: auto;
+                max-height: 70vh;
                 z-index: 40;
-                transform: translateY(calc(100% - 60px));
+                transform: translateY(calc(100% - 70px));
                 transition: transform 0.3s ease;
                 border-radius: 20px 20px 0 0;
                 box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
+                backdrop-filter: blur(10px);
             }
 
             #bill-container.expanded {
                 transform: translateY(0);
             }
 
+            /* Bill toggle button */
             #bill-toggle {
-                display: block;
+                display: flex;
+                align-items: center;
+                justify-content: center;
                 position: absolute;
-                top: 10px;
+                top: 15px;
                 left: 50%;
                 transform: translateX(-50%);
                 background: var(--brand-yellow);
                 color: var(--brand-black);
                 border: none;
-                padding: 8px 20px;
-                border-radius: 20px;
+                padding: 10px 20px;
+                border-radius: 25px;
                 font-weight: bold;
-                font-size: 14px;
+                font-size: 12px;
                 cursor: pointer;
                 z-index: 41;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                min-width: 120px;
+                text-align: center;
+                line-height: 1.2;
+            }
+
+            #bill-toggle small {
+                font-size: 10px;
+                opacity: 0.8;
+            }
+
+            /* Bill content with scroll */
+            #bill-items {
+                max-height: 40vh;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            /* Menu Items Grid */
+            #menu-items-container {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
+                padding: 0.5rem 0;
             }
 
             .menu-item-card {
-                height: 80px;
+                height: 100px;
                 font-size: 14px;
+                border-radius: 12px;
+                padding: 0.75rem;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                text-align: center;
+                cursor: pointer;
+                transition: all 0.2s ease;
+            }
+
+            .menu-item-card:active {
+                transform: scale(0.95);
             }
 
             .menu-item-card h3 {
-                font-size: 12px;
+                font-size: 11px;
+                line-height: 1.2;
+                margin-bottom: 0.25rem;
+                font-weight: bold;
             }
 
             .menu-item-card p {
-                font-size: 11px;
+                font-size: 10px;
+                margin: 0.125rem 0;
             }
 
+            /* Mobile Header */
             header {
-                padding: 0 1rem;
-                flex-wrap: wrap;
+                padding: 0.5rem;
+                flex-direction: column;
                 height: auto;
-                min-height: 64px;
+                min-height: 80px;
+                gap: 0.5rem;
+            }
+
+            header .flex:first-child {
+                justify-content: center;
+                width: 100%;
+            }
+
+            header img {
+                height: 40px;
             }
 
             header h1 {
-                font-size: 1.5rem;
+                font-size: 1.2rem;
+                text-align: center;
             }
 
             header .flex.items-center.gap-3 {
                 flex-wrap: wrap;
                 gap: 0.5rem;
                 justify-content: center;
+                width: 100%;
             }
 
             header button {
-                padding: 8px 12px;
-                font-size: 11px;
+                padding: 6px 10px;
+                font-size: 10px;
                 white-space: nowrap;
+                flex: 1;
+                min-width: 70px;
+                max-width: 100px;
             }
 
             header button i {
                 display: none; /* Hide icons on mobile to save space */
             }
 
+            /* Search and Categories */
             #search-box {
                 font-size: 16px; /* Prevents zoom on iOS */
+                padding: 12px;
+                margin-bottom: 1rem;
+                border-radius: 10px;
+                border: 2px solid #ddd;
+                background: white;
+            }
+
+            #category-tabs-container {
+                margin-bottom: 1rem;
+                padding-bottom: 0.5rem;
+                border-bottom: 2px solid var(--brand-light-grey);
             }
 
             .category-tab {
-                font-size: 12px;
+                font-size: 11px;
                 padding: 8px 12px;
+                margin-right: 0.5rem;
+                margin-bottom: 0.5rem;
+                border-radius: 20px;
+                white-space: nowrap;
             }
 
             /* Touch-friendly buttons */
@@ -229,10 +325,41 @@
             }
 
             /* Modal adjustments for mobile */
+            .modal {
+                padding: 0.5rem;
+                align-items: flex-end;
+            }
+
             .modal > div {
-                margin: 1rem;
-                max-height: 90vh;
+                margin: 0;
+                max-height: 85vh;
                 overflow-y: auto;
+                width: 100%;
+                border-radius: 20px 20px 0 0;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            /* Payment modal specific */
+            #paymentModal .modal > div {
+                align-items: center;
+                justify-content: center;
+                border-radius: 20px;
+                max-width: 90vw;
+                margin: auto;
+            }
+
+            /* Form inputs in modals */
+            .modal input, .modal select, .modal textarea {
+                font-size: 16px !important;
+                padding: 12px !important;
+                border-radius: 8px;
+            }
+
+            .modal button {
+                padding: 12px 16px;
+                font-size: 14px;
+                border-radius: 8px;
+                min-height: 44px;
             }
 
             /* Login form mobile adjustments */
@@ -247,25 +374,73 @@
                 padding: 12px !important;
             }
 
-            /* Better spacing for bill items on mobile */
+            /* Bill Items Mobile Layout */
+            #bill-items {
+                padding: 1rem 0.5rem 0.5rem;
+            }
+
             #bill-items .p-2 {
-                padding: 1rem 0.5rem;
+                padding: 0.75rem 0.5rem;
+                border-bottom: 1px solid var(--brand-light-grey);
+                margin-bottom: 0.5rem;
+            }
+
+            #bill-items .flex.items-center.justify-between {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.5rem;
+            }
+
+            #bill-items .flex.items-center.gap-2 {
+                justify-content: center;
+                margin-top: 0.5rem;
             }
 
             /* Larger touch targets for quantity buttons */
             #bill-items button {
-                min-width: 36px;
-                min-height: 36px;
+                min-width: 40px;
+                min-height: 40px;
                 font-size: 16px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
 
-            /* Improve category tabs scrolling on mobile */
+            /* Bill totals section */
+            #bill-container .p-4.mt-auto {
+                padding: 1rem;
+                background: var(--brand-black);
+                border-top: 2px solid var(--brand-light-grey);
+            }
+
+            #bill-container .space-y-2 > * {
+                margin-bottom: 0.75rem;
+            }
+
+            #bill-container button {
+                padding: 12px;
+                font-size: 14px;
+                border-radius: 10px;
+                font-weight: bold;
+            }
+
+            /* Smooth scrolling for all containers */
+            * {
+                -webkit-overflow-scrolling: touch;
+                scroll-behavior: smooth;
+            }
+
+            /* Category tabs horizontal scroll */
             #category-tabs-container {
+                display: flex;
                 overflow-x: auto;
                 white-space: nowrap;
                 -webkit-overflow-scrolling: touch;
                 scrollbar-width: none;
                 -ms-overflow-style: none;
+                padding: 0.5rem 0;
+                gap: 0.5rem;
             }
 
             #category-tabs-container::-webkit-scrollbar {
@@ -273,9 +448,32 @@
             }
 
             .category-tab {
-                display: inline-block;
-                white-space: nowrap;
                 flex-shrink: 0;
+                white-space: nowrap;
+            }
+
+            /* Custom scrollbar for bill items */
+            #bill-items::-webkit-scrollbar {
+                width: 4px;
+            }
+
+            #bill-items::-webkit-scrollbar-track {
+                background: transparent;
+            }
+
+            #bill-items::-webkit-scrollbar-thumb {
+                background: var(--brand-yellow);
+                border-radius: 2px;
+            }
+
+            /* Pull to refresh indicator */
+            .main-container > div:first-child::before {
+                content: '';
+                display: block;
+                height: 20px;
+                background: linear-gradient(to bottom, var(--brand-dark-grey), transparent);
+                margin: -20px -0.5rem 0;
+                pointer-events: none;
             }
 
             /* Responsive tables */
@@ -329,35 +527,64 @@
         }
 
         @media (max-width: 480px) {
+            /* Very small phones */
+            header {
+                min-height: 70px;
+            }
+
+            header h1 {
+                font-size: 1rem;
+            }
+
+            header img {
+                height: 35px;
+            }
+
+            header button {
+                font-size: 9px;
+                padding: 4px 8px;
+                min-width: 60px;
+                max-width: 80px;
+            }
+
+            .main-container {
+                padding: 0.25rem;
+                padding-bottom: 75px;
+            }
+
             #menu-items-container {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 0.5rem;
             }
 
             .menu-item-card {
-                height: 70px;
-                padding: 8px;
+                height: 85px;
+                padding: 0.5rem;
+                border-radius: 10px;
             }
 
             .menu-item-card h3 {
-                font-size: 11px;
-            }
-
-            .menu-item-card p {
                 font-size: 10px;
             }
 
-            header h1 {
-                font-size: 1.2rem;
-            }
-
-            header img {
-                height: 40px;
+            .menu-item-card p {
+                font-size: 9px;
             }
 
             .category-tab {
-                font-size: 11px;
+                font-size: 10px;
                 padding: 6px 10px;
+            }
+
+            #search-box {
+                padding: 10px;
+                font-size: 16px;
+            }
+
+            #bill-toggle {
+                padding: 8px 16px;
+                font-size: 12px;
+                min-width: 100px;
             }
         }
 
@@ -374,11 +601,89 @@
             .menu-item-card {
                 height: 90px;
             }
+
+            header h1 {
+                font-size: 1.5rem;
+            }
         }
 
-        /* Hide bill toggle on desktop */
-        #bill-toggle {
-            display: none;
+        /* Desktop styles - restore original layout */
+        @media (min-width: 769px) {
+            :root {
+                --header-height: 64px;
+            }
+
+            .main-container {
+                display: grid;
+                grid-template-columns: 2fr 1fr;
+                gap: 1rem;
+                height: calc(100vh - var(--header-height));
+                padding: 1rem;
+            }
+
+            #bill-container {
+                position: static;
+                transform: none;
+                height: 100%;
+                border-radius: 8px;
+                box-shadow: none;
+                backdrop-filter: none;
+            }
+
+            #bill-toggle {
+                display: none;
+            }
+
+            #bill-items {
+                max-height: none;
+            }
+
+            header {
+                flex-direction: row;
+                height: 64px;
+                min-height: 64px;
+                padding: 0 1.5rem;
+            }
+
+            header .flex:first-child {
+                justify-content: flex-start;
+                width: auto;
+            }
+
+            header h1 {
+                font-size: 1.875rem;
+                text-align: left;
+            }
+
+            header img {
+                height: 64px;
+            }
+
+            header .flex.items-center.gap-3 {
+                width: auto;
+                justify-content: flex-end;
+            }
+
+            header button {
+                padding: 8px 16px;
+                font-size: 14px;
+                flex: none;
+                min-width: auto;
+                max-width: none;
+            }
+
+            header button i {
+                display: inline;
+                margin-right: 0.5rem;
+            }
+
+            #menu-items-container {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+
+            .menu-item-card {
+                height: var(--menu-card-height);
+            }
         }
         /* Toast Notification */
         .toast {
@@ -835,9 +1140,22 @@
 
             const updateBillCounter = () => {
                 const counter = getEl('bill-items-count');
+                const toggleText = getEl('bill-toggle-text');
                 const totalItems = currentOrder.reduce((sum, item) => sum + item.quantity, 0);
-                counter.textContent = totalItems;
-                counter.style.display = totalItems > 0 ? 'inline-block' : 'none';
+                const totalPrice = currentOrder.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+                if (counter) {
+                    counter.textContent = totalItems;
+                    counter.style.display = totalItems > 0 ? 'inline-block' : 'none';
+                }
+
+                if (toggleText && window.innerWidth <= 768) {
+                    if (totalItems > 0) {
+                        toggleText.innerHTML = `الفاتورة<br><small>${formatPrice(totalPrice)} ر.ع.</small>`;
+                    } else {
+                        toggleText.textContent = 'الفاتورة';
+                    }
+                }
             };
 
             // Auto-expand bill when items are added on mobile
