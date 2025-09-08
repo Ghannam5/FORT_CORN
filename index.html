@@ -786,11 +786,24 @@
     <div id="productFormModal" class="modal fixed inset-0 flex items-center justify-center hidden z-50"><div class="bg-brand-dark-grey w-full max-w-lg rounded-lg shadow-xl p-6 border-2 border-yellow-400"><div class="flex justify-between items-center mb-6"><h3 id="product-form-title" class="text-2xl font-bold text-yellow-400"></h3><button class="close-modal-btn text-gray-400 hover:text-white text-3xl">&times;</button></div><form id="product-form"><input type="hidden" id="product-id"><div class="grid grid-cols-2 gap-4"><div><label for="product-name" class="block mb-2 text-sm font-medium text-gray-300">اسم المنتج</label><input type="text" id="product-name" class="bg-white border border-gray-600 text-black rounded w-full p-2.5" required></div><div><label for="product-category" class="block mb-2 text-sm font-medium text-gray-300">الفئة</label><input type="text" id="product-category" class="bg-white border border-gray-600 text-black rounded w-full p-2.5" required></div><div><label for="product-price" class="block mb-2 text-sm font-medium text-gray-300">السعر</label><input type="number" step="0.001" id="product-price" class="bg-white border border-gray-600 text-black rounded w-full p-2.5" required></div><div><label for="product-stock" class="block mb-2 text-sm font-medium text-gray-300">الكمية في المخزون</label><input type="number" id="product-stock" class="bg-white border border-gray-600 text-black rounded w-full p-2.5" required></div><div><label for="product-min-stock" class="block mb-2 text-sm font-medium text-gray-300">الحد الأدنى للمخزون</label><input type="number" id="product-min-stock" class="bg-white border border-gray-600 text-black rounded w-full p-2.5" value="5" required></div><div><label for="product-barcode" class="block mb-2 text-sm font-medium text-gray-300">الباركود</label><input type="text" id="product-barcode" class="bg-white border border-gray-600 text-black rounded w-full p-2.5"></div></div><div class="mt-6 flex justify-end"><button type="button" class="close-modal-btn text-white bg-gray-600 hover:bg-gray-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2">إلغاء</button><button type="submit" class="text-black bg-yellow-400 hover:bg-yellow-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center">حفظ المنتج</button></div></form></div></div>
     <div id="paymentModal" class="modal fixed inset-0 flex items-center justify-center hidden z-50"><div class="bg-brand-dark-grey w-full max-w-md rounded-lg shadow-xl p-8 border-2 border-yellow-400 text-center"><h3 class="text-3xl font-bold text-yellow-400 mb-4">الدفع</h3><div class="text-6xl font-extrabold text-white mb-6" id="payment-total">0.000</div><div class="flex justify-center gap-4 mb-6" id="payment-methods"><button class="payment-method-btn bg-gray-600 text-white px-4 py-2 rounded-lg flex-1" data-method="Cash"><i class="fa fa-money-bill-wave mr-2"></i>نقدي</button><button class="payment-method-btn bg-gray-600 text-white px-4 py-2 rounded-lg flex-1" data-method="Card"><i class="fa fa-credit-card mr-2"></i>بطاقة</button></div><button id="confirmPaymentBtn" class="w-full bg-green-500 text-white font-bold text-xl py-4 rounded-lg hover:bg-green-600"><i class="fa fa-check-circle mr-2"></i>تأكيد الدفع والطباعة</button><button class="close-modal-btn text-gray-400 hover:text-white text-sm mt-4">إلغاء</button></div></div>
     <div id="paymentConfirmModal" class="modal fixed inset-0 flex items-center justify-center hidden z-50">
-        <div class="bg-brand-dark-grey w-full max-w-2xl rounded-lg shadow-xl p-6 border-2 border-yellow-400">
+        <div class="bg-brand-dark-grey w-full max-w-3xl rounded-lg shadow-xl p-6 border-2 border-yellow-400">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-2xl font-bold text-yellow-400">معاينة الفاتورة وتأكيد الدفع</h3>
                 <button class="close-modal-btn text-gray-400 hover:text-white text-3xl">&times;</button>
             </div>
+
+            <!-- Car Number Input -->
+            <div class="mb-4 p-4 bg-brand-black rounded-lg border border-yellow-400">
+                <label for="car-number" class="block text-yellow-400 font-bold mb-2">
+                    <i class="fa fa-car mr-2"></i>رقم السيارة (اختياري):
+                </label>
+                <input type="text" id="car-number"
+                       class="w-full p-3 border border-gray-600 rounded-lg bg-white text-black text-center font-bold text-lg focus:border-yellow-400 focus:outline-none"
+                       placeholder="أدخل رقم السيارة..."
+                       maxlength="10">
+                <p class="text-gray-400 text-xs mt-1">سيظهر رقم السيارة في الفاتورة المطبوعة لسهولة التسليم</p>
+            </div>
+
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <!-- Receipt Preview -->
                 <div class="bg-white text-black p-4 rounded-lg text-right" style="font-family: 'Cairo', sans-serif; direction: rtl;">
@@ -800,12 +813,18 @@
                 <div>
                     <h4 class="text-yellow-400 font-bold mb-3">ملخص الدفع</h4>
                     <div id="payment-confirm-body" class="text-right text-sm max-h-72 overflow-y-auto"></div>
+
+                    <!-- Daily Invoice Counter -->
+                    <div class="mt-4 p-3 bg-brand-black rounded-lg border border-gray-600">
+                        <div class="text-gray-300 text-sm">رقم الفاتورة اليوم: <span id="daily-invoice-number" class="font-bold text-yellow-400">#1</span></div>
+                        <div class="text-gray-400 text-xs">إجمالي فواتير اليوم: <span id="daily-invoices-count" class="font-bold">1</span></div>
+                    </div>
                 </div>
             </div>
             <div class="mt-6 flex justify-end gap-2">
                 <button class="close-modal-btn bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg">رجوع</button>
                 <button id="confirmPaymentNowBtn" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg">
-                    تأكيد والطباعة
+                    <i class="fa fa-print mr-2"></i>تأكيد والطباعة
                 </button>
             </div>
         </div>
@@ -831,6 +850,8 @@
             let costPercentage = 50;
             let topProductsChart = null;
             let currentDiscount = { type: 'percentage', value: 0 };
+            let dailyInvoiceCounter = 1;
+            let currentCarNumber = '';
 
 
             // Persistent DB (IndexedDB) for operations and orders
@@ -909,6 +930,7 @@
                     sales = JSON.parse(localStorage.getItem('pos_sales_fortcorn')) || [];
                     geminiApiKey = localStorage.getItem('gemini_api_key_fortcorn') || 'AIzaSyDJzlcRMqmSgX_-4H-zlUvCkgUgkgsD0W8';
                     costPercentage = parseFloat(localStorage.getItem('cost_percentage_fortcorn')) || 50;
+                    dailyInvoiceCounter = getDailyInvoiceCounter();
                     if (products.length === 0) {
                         products = initialProducts;
                         db.saveProducts();
@@ -921,8 +943,56 @@
                     costPercentage = cost;
                     localStorage.setItem('gemini_api_key_fortcorn', key);
                     localStorage.setItem('cost_percentage_fortcorn', cost);
+                },
+                saveDailyCounter: () => {
+                    const today = new Date().toDateString();
+                    localStorage.setItem('daily_invoice_date_fortcorn', today);
+                    localStorage.setItem('daily_invoice_counter_fortcorn', dailyInvoiceCounter.toString());
                 }
             };
+
+            // Daily invoice counter functions
+            function getDailyInvoiceCounter() {
+                const today = new Date().toDateString();
+                const savedDate = localStorage.getItem('daily_invoice_date_fortcorn');
+                const savedCounter = parseInt(localStorage.getItem('daily_invoice_counter_fortcorn')) || 0;
+
+                if (savedDate === today) {
+                    return savedCounter;
+                } else {
+                    // New day, reset counter
+                    localStorage.setItem('daily_invoice_date_fortcorn', today);
+                    localStorage.setItem('daily_invoice_counter_fortcorn', '0');
+                    return 0;
+                }
+            }
+
+            function getNextInvoiceNumber() {
+                dailyInvoiceCounter++;
+                db.saveDailyCounter();
+                return dailyInvoiceCounter;
+            }
+
+            function getTodayInvoicesCount() {
+                const today = new Date().toDateString();
+                return sales.filter(sale => {
+                    const saleDate = new Date(sale.timestamp).toDateString();
+                    return saleDate === today;
+                }).length;
+            }
+
+            function updateDailyInvoiceDisplay() {
+                const dailyNumberEl = getEl('daily-invoice-number');
+                const dailyCountEl = getEl('daily-invoices-count');
+
+                if (dailyNumberEl) {
+                    dailyNumberEl.textContent = `#${dailyInvoiceCounter + 1}`;
+                }
+
+                if (dailyCountEl) {
+                    dailyCountEl.textContent = getTodayInvoicesCount();
+                }
+            }
 
             const formatPrice = (price) => price.toFixed(3);
             function showToast(message) { const toast = getEl('toast'); toast.textContent = message; toast.classList.add('show'); setTimeout(() => { toast.classList.remove('show'); }, 3000); }
@@ -1018,6 +1088,11 @@
 
             function buildReceiptPreviewHTML(order) {
                 const discountAmount = order.subtotal - order.total_price;
+                const carNumberInput = getEl('car-number');
+                const carNumber = carNumberInput ? carNumberInput.value.trim() : '';
+                const carNumberSection = carNumber ? `<p class="text-sm font-bold text-yellow-600 border-2 border-yellow-400 rounded p-2 my-2">رقم السيارة: ${carNumber}</p>` : '';
+                const dailyInvoiceSection = `<p class="text-xs">رقم الفاتورة اليوم: #${dailyInvoiceCounter + 1}</p>`;
+
                 return `
                     <div class="text-center mb-4">
                         <img src="img/p2.png" alt="Fort Corn Logo" class="h-16 w-16 mx-auto rounded-full border-2 border-yellow-400 bg-white mb-2" style="box-shadow:0 0 12px #FFD700;">
@@ -1025,6 +1100,8 @@
                         <p class="text-xs">فاتورة مبسطة</p>
                         <p class="text-xs">التاريخ: ${new Date().toLocaleString('ar-EG')}</p>
                         <p class="text-xs">رقم الفاتورة: ${order.id}</p>
+                        ${dailyInvoiceSection}
+                        ${carNumberSection}
                     </div>
 
                     <table class="w-full text-xs mb-4">
@@ -1088,6 +1165,16 @@
                     receiptPreview.innerHTML = buildReceiptPreviewHTML(tempOrder);
                 }
 
+                // Update daily invoice display
+                updateDailyInvoiceDisplay();
+
+                // Clear car number input and focus on it
+                const carNumberInput = getEl('car-number');
+                if (carNumberInput) {
+                    carNumberInput.value = '';
+                    setTimeout(() => carNumberInput.focus(), 100);
+                }
+
                 paymentConfirmModal.classList.remove('hidden');
                 return tempOrder;
             }
@@ -1100,20 +1187,59 @@
                 };
             };
 
+            // Update receipt preview when car number changes
+            document.addEventListener('DOMContentLoaded', () => {
+                const carNumberInput = getEl('car-number');
+                if (carNumberInput) {
+                    carNumberInput.addEventListener('input', () => {
+                        const receiptPreview = getEl('receipt-preview');
+                        if (receiptPreview && paymentConfirmModal && !paymentConfirmModal.classList.contains('hidden')) {
+                            const tempOrder = {
+                                id: Date.now(),
+                                timestamp: new Date().toISOString(),
+                                total_price: currentOrder.reduce((s,i)=>s+i.price*i.quantity,0),
+                                subtotal: currentOrder.reduce((s,i)=>s+i.price*i.quantity,0),
+                                discount: currentDiscount,
+                                paymentMethod: selectedPaymentMethod,
+                                items: [...currentOrder]
+                            };
+                            receiptPreview.innerHTML = buildReceiptPreviewHTML(tempOrder);
+                        }
+                    });
+                }
+            });
+
             async function processPayment(paymentMethod) {
+                // Get car number from input
+                const carNumberInput = getEl('car-number');
+                currentCarNumber = carNumberInput ? carNumberInput.value.trim() : '';
+
+                // Get next invoice number
+                const invoiceNumber = getNextInvoiceNumber();
+
                 // reuse finalize logic but ensure DB persistence (IndexedDB)
                 const subtotal = currentOrder.reduce((s,i)=>s+i.price*i.quantity,0);
                 let discountAmount = currentDiscount.type==='percentage' ? subtotal*(currentDiscount.value/100): currentDiscount.value;
                 const total_price=subtotal - discountAmount;
-                const order = { id: Date.now(), timestamp: new Date().toISOString(), total_price, subtotal, discount: currentDiscount, paymentMethod, items:[...currentOrder] };
+                const order = {
+                    id: Date.now(),
+                    timestamp: new Date().toISOString(),
+                    total_price,
+                    subtotal,
+                    discount: currentDiscount,
+                    paymentMethod,
+                    items:[...currentOrder],
+                    carNumber: currentCarNumber,
+                    dailyInvoiceNumber: invoiceNumber
+                };
                 // Reduce stock and persist
                 currentOrder.forEach(orderItem=>{const product=products.find(p=>p.id===orderItem.id); if(product) product.stock -= orderItem.quantity;});
                 sales.push(order);
                 db.saveSales(); db.saveProducts();
                 // Persist to IDB
                 try { await initIDB(); await idbAddOrder(order); await idbAddOperation({ type:'SALE', refId: order.id, payload: { total_price } }); } catch(e){ console.error('IDB save error', e); }
-                // Print
-                finalizeAndPrint(paymentMethod);
+                // Print with updated order info
+                finalizeAndPrint(paymentMethod, order);
             }
 
 
@@ -1172,7 +1298,62 @@
             };
 
             // --- Payment & Order Finalization ---
-            const finalizeAndPrint=(paymentMethod)=>{if(currentOrder.length===0)return; const subtotal = currentOrder.reduce((s,i)=>s+i.price*i.quantity,0); let discountAmount=0; if(currentDiscount.type==='percentage'){discountAmount=subtotal*(currentDiscount.value/100)}else{discountAmount=currentDiscount.value} const total_price=subtotal-discountAmount; const n={id:order?.id||Date.now(),timestamp:new Date().toISOString(),total_price,subtotal,discount:currentDiscount,paymentMethod,items:[...currentOrder]};sales.push(n);currentOrder.forEach(orderItem=>{const product=products.find(p=>p.id===orderItem.id);if(product)product.stock-=orderItem.quantity});db.saveSales();db.saveProducts();const receiptHTML=`<html><head><title>فاتورة طلب #${n.id}</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet"><style>body{font-family:'Cairo',sans-serif;direction:rtl;width:300px;margin:0 auto;color:#000}.receipt-header,.receipt-footer{text-align:center}.receipt-header h2{margin:10px 0 5px 0;font-size:1.2rem}.receipt-header p{margin:2px 0;font-size:.8rem}table{width:100%;border-collapse:collapse;margin-top:10px;font-size:.9rem}th,td{padding:4px;vertical-align:top;}th{text-align:right}.items-table .price,.items-table .qty{text-align:left}.note{font-size:0.8em;color:#555;padding-right:10px;}.totals-table td:first-child{text-align:right}.totals-table td:last-child{text-align:left}.total-row td{border-top:1px dashed #000;padding-top:5px;font-weight:bold}.receipt-footer{margin-top:15px;font-size:.8rem;border-top:1px solid #ccc;padding-top:5px}.logo-img{display:block;margin:0 auto 8px auto;height:64px;width:64px;border-radius:12px;border:3px solid #FFD700;background:#fff;object-fit:contain;box-shadow:0 0 24px #FFD700;}</style></head><body><div class="receipt-container"><div class="receipt-header"><img src="img/p2.png" alt="Fort Corn Logo" class="logo-img"><h2>ذرة القلعة - Fort Corn</h2><p>فاتورة مبسطة</p><p>التاريخ: ${new Date().toLocaleString('ar-EG')}</p><p>رقم الفاتورة: ${n.id}</p></div><table class="items-table"><thead><tr><th>الصنف</th><th class="qty">الكمية</th><th class="price">السعر</th></tr></thead><tbody>${currentOrder.map(item=>`<tr><td colspan="3">${item.name}${item.note?`<br><span class="note">- ${item.note}</span>`:''}</td></tr><tr><td></td><td class="qty">${item.quantity} x ${formatPrice(item.price)}</td><td class="price">${formatPrice(item.price*item.quantity)}</td></tr>`).join('')}</tbody></table><table class="totals-table"><tbody><tr><td>المجموع الفرعي:</td><td>${formatPrice(subtotal)}</td></tr><tr><td>الخصم:</td><td>-${formatPrice(discountAmount)}</td></tr><tr class="total-row"><td>الإجمالي:</td><td>${formatPrice(total_price)}</td></tr></tbody></table><div class="receipt-footer"><p>طريقة الدفع: ${paymentMethod}</p><p>شكراً لزيارتكم!</p></div></div></body></html>`;const p=window.open('','_blank');p.document.write(receiptHTML);p.document.close();p.focus();setTimeout(()=>{p.print();p.close()},250);clearOrder();renderMenu();getEl('paymentModal').classList.add('hidden')};
+            const finalizeAndPrint=(paymentMethod, orderData = null)=>{
+                if(currentOrder.length===0)return;
+
+                const subtotal = currentOrder.reduce((s,i)=>s+i.price*i.quantity,0);
+                let discountAmount=0;
+                if(currentDiscount.type==='percentage'){
+                    discountAmount=subtotal*(currentDiscount.value/100)
+                }else{
+                    discountAmount=currentDiscount.value
+                }
+                const total_price=subtotal-discountAmount;
+
+                // Use provided order data or create new
+                const n = orderData || {
+                    id: Date.now(),
+                    timestamp: new Date().toISOString(),
+                    total_price,
+                    subtotal,
+                    discount: currentDiscount,
+                    paymentMethod,
+                    items: [...currentOrder],
+                    carNumber: currentCarNumber || '',
+                    dailyInvoiceNumber: dailyInvoiceCounter
+                };
+
+                // Only add to sales if not already provided
+                if (!orderData) {
+                    sales.push(n);
+                }
+
+                currentOrder.forEach(orderItem=>{
+                    const product=products.find(p=>p.id===orderItem.id);
+                    if(product) product.stock-=orderItem.quantity
+                });
+                db.saveSales();
+                db.saveProducts();
+
+                // Build receipt HTML with car number and daily invoice number
+                const carNumberSection = n.carNumber ? `<p style="font-weight:bold;color:#d4af37;border:2px solid #d4af37;padding:5px;margin:5px 0;border-radius:5px;">رقم السيارة: ${n.carNumber}</p>` : '';
+                const dailyInvoiceSection = n.dailyInvoiceNumber ? `<p>رقم الفاتورة اليوم: #${n.dailyInvoiceNumber}</p>` : '';
+
+                const receiptHTML=`<html><head><title>فاتورة طلب #${n.id}</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet"><style>body{font-family:'Cairo',sans-serif;direction:rtl;width:300px;margin:0 auto;color:#000}.receipt-header,.receipt-footer{text-align:center}.receipt-header h2{margin:10px 0 5px 0;font-size:1.2rem}.receipt-header p{margin:2px 0;font-size:.8rem}table{width:100%;border-collapse:collapse;margin-top:10px;font-size:.9rem}th,td{padding:4px;vertical-align:top;}th{text-align:right}.items-table .price,.items-table .qty{text-align:left}.note{font-size:0.8em;color:#555;padding-right:10px;}.totals-table td:first-child{text-align:right}.totals-table td:last-child{text-align:left}.total-row td{border-top:1px dashed #000;padding-top:5px;font-weight:bold}.receipt-footer{margin-top:15px;font-size:.8rem;border-top:1px solid #ccc;padding-top:5px}.logo-img{display:block;margin:0 auto 8px auto;height:64px;width:64px;border-radius:12px;border:3px solid #FFD700;background:#fff;object-fit:contain;box-shadow:0 0 24px #FFD700;}</style></head><body><div class="receipt-container"><div class="receipt-header"><img src="img/p2.png" alt="Fort Corn Logo" class="logo-img"><h2>ذرة القلعة - Fort Corn</h2><p>فاتورة مبسطة</p><p>التاريخ: ${new Date().toLocaleString('ar-EG')}</p><p>رقم الفاتورة: ${n.id}</p>${dailyInvoiceSection}${carNumberSection}</div><table class="items-table"><thead><tr><th>الصنف</th><th class="qty">الكمية</th><th class="price">السعر</th></tr></thead><tbody>${currentOrder.map(item=>`<tr><td colspan="3">${item.name}${item.note?`<br><span class="note">- ${item.note}</span>`:''}</td></tr><tr><td></td><td class="qty">${item.quantity} x ${formatPrice(item.price)}</td><td class="price">${formatPrice(item.price*item.quantity)}</td></tr>`).join('')}</tbody></table><table class="totals-table"><tbody><tr><td>المجموع الفرعي:</td><td>${formatPrice(subtotal)}</td></tr><tr><td>الخصم:</td><td>-${formatPrice(discountAmount)}</td></tr><tr class="total-row"><td>الإجمالي:</td><td>${formatPrice(total_price)}</td></tr></tbody></table><div class="receipt-footer"><p>طريقة الدفع: ${paymentMethod}</p><p>شكراً لزيارتكم!</p></div></div></body></html>`;
+
+                const p=window.open('','_blank');
+                p.document.write(receiptHTML);
+                p.document.close();
+                p.focus();
+                setTimeout(()=>{p.print();p.close()},250);
+
+                clearOrder();
+                renderMenu();
+                getEl('paymentModal').classList.add('hidden');
+
+                // Clear car number after printing
+                currentCarNumber = '';
+            };
 
             // --- Modal Handling ---
             const modals = document.querySelectorAll('.modal');
@@ -2072,6 +2253,9 @@
                     renderBill();
                     updateClock();
                     setInterval(updateClock, 1000);
+
+                    // Initialize daily invoice counter display
+                    updateDailyInvoiceDisplay();
 
                     // Mobile-specific initialization
                     if (window.innerWidth <= 768) {
